@@ -14,7 +14,7 @@
     let role_id = 1;
 
     onMount(async () => {
-        const { data } = await axios.get('roles', { withCredentials: true });
+        const { data } = await axios.get('roles');
         roles = data;
     });
 
@@ -26,7 +26,7 @@
             role_id
         };
 
-        await axios.post('users', newUser, { withCredentials: true });
+        await axios.post('users', newUser);
 
         await goto('/users');
     }

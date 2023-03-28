@@ -32,7 +32,7 @@
 
 	async function getUsers() {
 		try {
-			const { data } = await axios.get(`users?page=${page}`, {withCredentials: true});
+			const { data } = await axios.get(`users?page=${page}`);
 
 			users = data.data;
 			lastPage = data.meta.last_page;
@@ -47,7 +47,7 @@
      */
 	async function deleteUser(id) {
 		if (confirm('Are you sure you want to delete this record?')) {
-			await axios.delete(`users/${id}`, {withCredentials: true});
+			await axios.delete(`users/${id}`);
 			await getUsers();
 		}
 	}

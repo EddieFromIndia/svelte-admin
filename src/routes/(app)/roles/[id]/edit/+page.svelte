@@ -12,14 +12,14 @@
     let name = '';
 
     onMount(async () => {
-        const { data } = await axios.get('permissions', { withCredentials: true });
+        const { data } = await axios.get('permissions');
         permissions = data;
 
         await getRole();
     });
 
     async function getRole() {
-        const { data } = await axios.get(`roles/${$page.params.id}`, { withCredentials: true });
+        const { data } = await axios.get(`roles/${$page.params.id}`);
 
         name = data.name;
         selectedPermissions = data.permissions.map(p => p.id);
@@ -41,7 +41,7 @@
             permissions: selectedPermissions
         };
 
-        await axios.put(`roles/${$page.params.id}`, role, { withCredentials: true });
+        await axios.put(`roles/${$page.params.id}`, role);
 
         await goto('/roles');
     }

@@ -1,5 +1,4 @@
-<script>
-//@ts-nocheck
+<script lang="ts">
 
     import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
@@ -8,28 +7,29 @@
     import { page } from '$app/stores';
 
     let product = new Product();
-    //let files;
 
     onMount(async () => {
-        const { data } = await axios.get(`products/${$page.params.id}`, { withCredentials: true });
+        const { data } = await axios.get(`products/${$page.params.id}`);
         product = data;
     });
 
-    async function handleFileUpload(e) {
-        console.log(e.target.files[0]);
+    const upload = async (e: Event) => {
+        if (e.target === null) return;
+
         const file = e.target.files[0];
+
         const formData = new FormData();
-        formData.append('file', file);
-        // send formData to the server using fetch or axios
-        const { data } = await axios.post('upload', formData, { withCredentials: true });
+        formData.append('image', file);
+
+        const {data} = await axios.post('upload', formData);
 
         product.image = data.url;
-  }
+    }
 
     async function submit() {
         let newProduct = product;
 
-        await axios.put(`products/${$page.params.id}`, newProduct, { withCredentials: true });
+        await axios.put(`products/${$page.params.id}`, newProduct);
 
         await goto('/products');
     }
@@ -50,7 +50,7 @@
         <div class="input-group">
             <input bind:value={product.image} class="form-control" name="image">
             <label class="btn btn-primary">Upload
-                <input type="file" hidden on:change={e => handleFileUpload(e)}>
+                <input type="file" hidden on:change={e => upload(e)}>
             </label>
         </div>
     </div>

@@ -15,14 +15,14 @@
     let role_id = 0;
 
     onMount(async () => {
-        const { data } = await axios.get('roles', { withCredentials: true });
+        const { data } = await axios.get('roles');
         roles = data;
 
         await getUser();
     });
 
     async function getUser() {
-        const { data } = await axios.get(`users/${$page.params.id}`, { withCredentials: true });
+        const { data } = await axios.get(`users/${$page.params.id}`);
 
         first_name = data.first_name;
         last_name = data.last_name;
@@ -38,7 +38,7 @@
             role_id
         };
 
-        await axios.put(`users/${$page.params.id}`, user, { withCredentials: true });
+        await axios.put(`users/${$page.params.id}`, user);
 
         await goto('/users');
     }

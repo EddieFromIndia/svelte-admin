@@ -20,7 +20,7 @@
     onMount(async () => {
         
         try {
-            const { data } = await axios.get('chart', {withCredentials: true});
+            const { data } = await axios.get('chart');
 
             chartData.labels = data.map(item => item.date);
             chartData.datasets[0].data = data.map(item => item.sum);

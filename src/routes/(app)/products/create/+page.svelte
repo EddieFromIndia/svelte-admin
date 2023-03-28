@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
     import axios from 'axios';
@@ -7,14 +7,27 @@
     let product = new Product();
 
     onMount(async () => {
-        const { data } = await axios.get('products', { withCredentials: true });
+        const { data } = await axios.get('products');
         product = data;
     });
+
+    const upload = async (e: Event) => {
+        if (e.target === null) return;
+
+        const file = e.target.files[0];
+
+        const formData = new FormData();
+        formData.append('image', file);
+
+        const {data} = await axios.post('upload', formData);
+
+        product.image = data.url;
+    }
 
     async function submit() {
         let newProduct = product;
 
-        await axios.post('products', newProduct, { withCredentials: true });
+        await axios.post('products', newProduct);
 
         await goto('/products');
     }
@@ -32,7 +45,12 @@
     </div>
     <div class="mb-3">
         <label for="image">Image</label>
-        <input bind:value={product.image} class="form-control" name="image">
+        <div class="input-group">
+            <input bind:value={product.image} class="form-control" name="image">
+            <label class="btn btn-primary">Upload
+                <input type="file" hidden on:change={e => upload(e)}>
+            </label>
+        </div>
     </div>
     <div class="mb-3">
         <label for="price">Price</label>

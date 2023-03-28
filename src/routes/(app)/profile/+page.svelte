@@ -31,7 +31,7 @@
         newUser.last_name = last_name;
         newUser.email = email;
 
-        const { data } = await axios.put('users/info', newUser, { withCredentials: true });
+        const { data } = await axios.put('users/info', newUser);
 
         userStore.update(() => {
           return data;
@@ -39,7 +39,7 @@
     }
 
     async function submitPassword() {
-        await axios.put('users/password', { password, password_confirm } , { withCredentials: true });
+        await axios.put('users/password', { password, password_confirm });
     }
 
 </script>

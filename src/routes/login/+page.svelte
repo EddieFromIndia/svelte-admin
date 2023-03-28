@@ -9,7 +9,7 @@
         const { data } = await axios.post('login', {
             email,
             password
-        }, {withCredentials: true});
+        });
 
         axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
 

@@ -9,7 +9,7 @@
     let name = '';
 
     onMount(async () => {
-        const { data } = await axios.get('permissions', { withCredentials: true });
+        const { data } = await axios.get('permissions');
         permissions = data;
     });
 
@@ -29,7 +29,7 @@
             permissions: selectedPermissions
         };
 
-        await axios.post('roles', newRole, { withCredentials: true });
+        await axios.post('roles', newRole);
 
         await goto('/roles');
     }

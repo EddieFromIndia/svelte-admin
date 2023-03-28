@@ -35,7 +35,7 @@
 
     async function exportCsv() {
         try {
-			const res = await axios.post('export', {}, {withCredentials: true, responseType: 'blob'});
+			const res = await axios.post('export', {}, {responseType: 'blob'});
             const blob = new Blob([res.data], {type: 'text/csv'});
             const downloadUrl = window.URL.createObjectURL(blob);
             const link = document.createElement('a');
@@ -50,7 +50,7 @@
 
 	async function getOrders() {
 		try {
-			const { data } = await axios.get(`orders?page=${page}`, {withCredentials: true});
+			const { data } = await axios.get(`orders?page=${page}`);
 
 			orders = data.data;
 			lastPage = data.meta.last_page;

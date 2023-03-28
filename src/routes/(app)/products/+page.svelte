@@ -32,7 +32,7 @@
 
 	async function getProducts() {
 		try {
-			const { data } = await axios.get(`products?page=${page}`, {withCredentials: true});
+			const { data } = await axios.get(`products?page=${page}`);
 
 			products = data.data;
 			lastPage = data.meta.last_page;
@@ -47,7 +47,7 @@
      */
 	async function deleteProduct(id) {
 		if (confirm('Are you sure you want to delete this record?')) {
-			await axios.delete(`products/${id}`, {withCredentials: true});
+			await axios.delete(`products/${id}`);
 			await getProducts();
 		}
 	}
