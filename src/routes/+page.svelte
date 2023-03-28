@@ -6,7 +6,7 @@
 
 	onMount(async () => {
 		try {
-			const { data } = await axios.get('http://localhost:8000/api/user', {withCredentials: true});
+			const { data } = await axios.get('user', {withCredentials: true});
     
 			userStore.update(() => {
 				return data;

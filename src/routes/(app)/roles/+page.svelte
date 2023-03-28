@@ -11,7 +11,7 @@
 
 	async function getRoles() {
 		try {
-			const { data } = await axios.get(`http://localhost:8000/api/roles`, {withCredentials: true});
+			const { data } = await axios.get(`roles`, {withCredentials: true});
 
 			roles = data;
 		}
@@ -25,7 +25,7 @@
      */
 	async function deleteRole(id) {
 		if (confirm('Are you sure you want to delete this record?')) {
-			await axios.delete(`http://localhost:8000/api/roles/${id}`, {withCredentials: true});
+			await axios.delete(`roles/${id}`, {withCredentials: true});
 			await getRoles();
 		}
 	}

@@ -4,14 +4,14 @@
     import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
     import axios from 'axios';
-    import { Product } from '../../../../models/Product';
+    import { Product } from '../../../../../models/Product';
     import { page } from '$app/stores';
 
     let product = new Product();
     //let files;
 
     onMount(async () => {
-        const { data } = await axios.get(`http://localhost:8000/api/products/${$page.params.id}`, { withCredentials: true });
+        const { data } = await axios.get(`products/${$page.params.id}`, { withCredentials: true });
         product = data;
     });
 
@@ -21,7 +21,7 @@
         const formData = new FormData();
         formData.append('file', file);
         // send formData to the server using fetch or axios
-        const { data } = await axios.post('http://localhost:8000/api/upload', formData, { withCredentials: true });
+        const { data } = await axios.post('upload', formData, { withCredentials: true });
 
         product.image = data.url;
   }
@@ -29,7 +29,7 @@
     async function submit() {
         let newProduct = product;
 
-        await axios.put(`http://localhost:8000/api/products/${$page.params.id}`, newProduct, { withCredentials: true });
+        await axios.put(`products/${$page.params.id}`, newProduct, { withCredentials: true });
 
         await goto('/products');
     }

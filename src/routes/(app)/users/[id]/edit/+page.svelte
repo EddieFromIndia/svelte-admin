@@ -1,5 +1,6 @@
 <script>
-    import { onMount } from 'svelte';
+    import { page } from '$app/stores'
+    import { onMount, tick } from 'svelte';
     import { goto } from '$app/navigation';
     import axios from 'axios';
 
@@ -11,28 +12,39 @@
     let first_name = '';
     let last_name = '';
     let email = '';
-    let role_id = 1;
+    let role_id = 0;
 
     onMount(async () => {
-        const { data } = await axios.get('http://localhost:8000/api/roles', { withCredentials: true });
+        const { data } = await axios.get('roles', { withCredentials: true });
         roles = data;
+
+        await getUser();
     });
 
+    async function getUser() {
+        const { data } = await axios.get(`users/${$page.params.id}`, { withCredentials: true });
+
+        first_name = data.first_name;
+        last_name = data.last_name;
+        email = data.email;
+        role_id = data.role.id;
+    }
+
     async function submit() {
-        let newUser = {
+        let user = {
             first_name,
             last_name,
             email,
             role_id
         };
 
-        await axios.post('http://localhost:8000/api/users', newUser, { withCredentials: true });
+        await axios.put(`users/${$page.params.id}`, user, { withCredentials: true });
 
         await goto('/users');
     }
 </script>
 
-<h3>Create User</h3>
+<h3>Edit User</h3>
 <form on:submit|preventDefault={submit}>
     <div class="mb-3">
         <label for="first_name">First Name</label>
@@ -56,5 +68,5 @@
         </select>
     </div>
 
-    <button class="btn btn-outline-secondary" type="submit">Create</button>
+    <button class="btn btn-outline-secondary" type="submit">Update</button>
 </form>

@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
-	import userStore from '../../store'
+	import userStore from '../../../store'
 	import axios from 'axios';
     
     $: user = $userStore;
@@ -31,7 +31,7 @@
         newUser.last_name = last_name;
         newUser.email = email;
 
-        const { data } = await axios.put('http://localhost:8000/api/users/info', newUser, { withCredentials: true });
+        const { data } = await axios.put('users/info', newUser, { withCredentials: true });
 
         userStore.update(() => {
           return data;
@@ -39,7 +39,7 @@
     }
 
     async function submitPassword() {
-        await axios.put('http://localhost:8000/api/users/password', { password, password_confirm } , { withCredentials: true });
+        await axios.put('users/password', { password, password_confirm } , { withCredentials: true });
     }
 
 </script>
